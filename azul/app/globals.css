@@ -1,0 +1,143 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─────────────────────────────────────────────
+   Base
+───────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Accessible focus ring in brand color */
+*:focus-visible {
+  outline: 2px solid #0000CC;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Hide native cursor on pointer devices — custom cursor takes over */
+@media (pointer: fine) {
+  html, * {
+    cursor: none !important;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #F5F5F0;
+}
+::-webkit-scrollbar-thumb {
+  background: #0000CC;
+  border-radius: 99px;
+}
+
+/* ─────────────────────────────────────────────
+   Shimmer effect — AZUL wordmark on load
+───────────────────────────────────────────── */
+@keyframes wordmark-shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.shimmer-text {
+  background: linear-gradient(
+    90deg,
+    #ffffff 0%,
+    #ffffff 30%,
+    #c8d8ff 48%,
+    #a0bbff 50%,
+    #c8d8ff 52%,
+    #ffffff 70%,
+    #ffffff 100%
+  );
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: wordmark-shimmer 4s linear infinite;
+}
+
+/* ─────────────────────────────────────────────
+   Sweep buttons — fill slides left-to-right
+───────────────────────────────────────────── */
+
+/* On light backgrounds: royal blue fill */
+.btn-royal {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+.btn-royal::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #0000CC;
+  transform: translateX(-101%);
+  transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 0;
+}
+.btn-royal:hover::after,
+.btn-royal:focus-visible::after {
+  transform: translateX(0);
+}
+
+/* On dark/royal backgrounds: white fill */
+.btn-white {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+.btn-white::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #ffffff;
+  transform: translateX(-101%);
+  transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 0;
+}
+.btn-white:hover::after,
+.btn-white:focus-visible::after {
+  transform: translateX(0);
+}
+
+/* Button text — sits above the fill layer */
+.btn-text {
+  position: relative;
+  z-index: 1;
+  transition: color 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.btn-royal:hover .btn-text,
+.btn-royal:focus-visible .btn-text {
+  color: #ffffff;
+}
+.btn-white:hover .btn-text,
+.btn-white:focus-visible .btn-text {
+  color: #0000CC;
+}
+
+/* ─────────────────────────────────────────────
+   Reduced-motion overrides
+───────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .shimmer-text {
+    background: #ffffff;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: none;
+  }
+}
